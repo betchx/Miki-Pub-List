@@ -6,7 +6,7 @@ require 'open-uri'
 
 doc = Hpricot(open(ARGV[0]))
 
-ttls = (doc/'td.blackbd').map{|x| x.inner_html}
+ttls = (doc/'td.blackbd').map{|x| x.inner_text}
 bodies = (doc/'td.black').map{|x| x.inner_text}
 links = (doc/'td.black').map{|x| (x/'a').map{|a| a['href']} }
 
