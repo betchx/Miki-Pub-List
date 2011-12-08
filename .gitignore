@@ -4,3 +4,4 @@ pdfs/*.pdf
 *.bak
 ~*
 *.html
+pdfs/**/*.pdf
