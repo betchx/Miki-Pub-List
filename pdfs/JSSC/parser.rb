@@ -20,6 +20,11 @@ links = (doc/'td.black').map{|x| (x/'a').map{|a| a['href']} }
 
 data = bodies.map{|x| x.gsub(/\n/,'|')}.join("\n").scan(/^([^|]+)\|([^,]+),.*Vol\.\D*(\d+).*\((\d+)\).*No\.\D*(\d+).*pp\.\D*(\d+-\d+)/)
 
+puts "% Encoding: UTF8\n"
+
+
+dir = File.basename(Dir.pwd)
+
 ttls.size.times do |i|
   title = ttls[i]
   abstract_link, pdf_link = *links[i]
@@ -36,17 +41,17 @@ ttls.size.times do |i|
     end
   end
   puts <<-NNN
-@article{#{tag},
-  author = "#{authors.split(/,/).join(' and ')}",
-  title = "#{title}",
-  journal = "#{journal}",
-  year = "#{year}",
-  volume = "#{volume}",
-  pages = "#{pages}",
-  number = "#{number}",
-  url = "#{abstract_link}",
-  memo = "PDF_LINK: #{pdf_link}",
-  file = "#{pdf_file}:#{pdf_file}:PDF",
+@ARTICLE{#{tag},
+  author = {#{authors.split(/,/).join(' and ')}},
+  title = {#{title}},
+  journal = {#{journal}},
+  year = {#{year}},
+  volume = {#{volume}},
+  pages = {#{pages}},
+  number = {#{number}},
+  url = {#{abstract_link}},
+  memo = {PDF_LINK: #{pdf_link}},
+  file = {#{pdf_file}:#{dir}\\\\#{pdf_file}:PDF}
 }
 
   NNN
