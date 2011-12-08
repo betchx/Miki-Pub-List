@@ -48,19 +48,19 @@ ttls.size.times do |i|
   #title = {#{NKF.nkf("-Ws",title)}},
   #journal = {#{NKF.nkf("-Ws",journal)}},
   puts <<-NNN
-@ARTICLE{#{tag},
-  author = {#{authors.split(/,/).join(' and ')}},
-  title = {#{title}},
-  journal = {#{journal}},
-  year = {#{year}},
-  volume = {#{volume}},
-  pages = {#{pages}},
-  number = {#{number}},
-  url = {#{abstract_link}},
-  memo = {PDF_LINK: #{pdf_link}},
-  file = {#{pdf_file}:#{dir}\\\\#{pdf_file}:PDF}
-}
-
+@ARTICLE{#{tag},\r
+  author = {#{authors.split(/,/).join(' and ')}},\r
+  title = {#{title}},\r
+  journal = {#{journal}},\r
+  year = {#{year}},\r
+  volume = {#{volume}},\r
+  pages = {#{pages}},\r
+  number = {#{number}},\r
+  url = {#{abstract_link}},\r
+  memo = {PDF_LINK: #{pdf_link}},\r
+  file = {#{pdf_file}:#{dir}\\\\#{pdf_file}:PDF}\r
+}\r
+\r
   NNN
 end
 
