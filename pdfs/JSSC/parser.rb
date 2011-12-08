@@ -3,6 +3,7 @@
 require 'rubygems'
 require 'hpricot'
 require 'open-uri'
+#require 'nkf'
 
 doc = Hpricot(open(ARGV[0]))
 
@@ -29,6 +30,7 @@ ttls.size.times do |i|
   title = ttls[i]
   abstract_link, pdf_link = *links[i]
   authors,journal,volume,year,number,pages = *data[i]
+  #authors = NKF.nkf("-Ws", authors)
   first_page, last_page = * pages.split(/-+/)
   tag = [year,volume,first_page].join('_')
   pdf_file = "#{tag}_#{title}.pdf"
@@ -40,6 +42,9 @@ ttls.size.times do |i|
       end
     end
   end
+  #pdf_file = NKF.nkf("-Ws",pdf_file)
+  #title = {#{NKF.nkf("-Ws",title)}},
+  #journal = {#{NKF.nkf("-Ws",journal)}},
   puts <<-NNN
 @ARTICLE{#{tag},
   author = {#{authors.split(/,/).join(' and ')}},
