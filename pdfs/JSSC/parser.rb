@@ -4,7 +4,7 @@ require 'rubygems'
 require 'hpricot'
 require 'open-uri'
 
-doc = Hpricot (open("archive.html"))
+doc = Hpricot(open(ARGV[0]))
 
 ttls = (doc/'td.blackbd').map{|x| x.inner_html}
 bodies = (doc/'td.black').map{|x| x.inner_text}
