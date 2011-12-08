@@ -1,2 +1,3 @@
 *.sh encoding=UTF-8
 *.txt encoding=SJIS
+JSSC.bib encoding=UTF-8
