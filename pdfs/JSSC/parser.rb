@@ -1,4 +1,4 @@
-#! /usr/bin/ruby
+#! /usr/bin/ruby -Ku
 
 require 'rubygems'
 require 'hpricot'
@@ -21,13 +21,15 @@ links = (doc/'td.black').map{|x| (x/'a').map{|a| a['href']} }
 
 data = bodies.map{|x| x.gsub(/\n/,'|')}.join("\n").scan(/^([^|]+)\|([^,]+),.*Vol\.\D*(\d+).*\((\d+)\).*No\.\D*(\d+).*pp\.\D*(\d+-\d+)/)
 
-puts "% Encoding: UTF8\n"
-
+puts <<KKK
+% This file was created with JabRef 2.7.2.\r
+% Encoding: UTF8\r
+KKK
 
 dir = File.basename(Dir.pwd)
 
 ttls.size.times do |i|
-  title = ttls[i]
+  title = ttls[i].gsub(/:/,'：')
   abstract_link, pdf_link = *links[i]
   authors,journal,volume,year,number,pages = *data[i]
   #authors = NKF.nkf("-Ws", authors)
