@@ -25,7 +25,7 @@ puts <<KKK
 % This file was created with JabRef 2.7.2.\r
 % Encoding: UTF8\r
 \r
-% created by #{$0} on #{Date.now}.\r
+% created by #{$0} on #{Time.new}.\r
 \r
 KKK
 
@@ -41,20 +41,24 @@ ARGV.each do |uri|
 
   file.close
 
+  journal = (html/:title).first.inner_text.strip
   doc =Hpricot( (html/"body").inner_html )
-  jornal = (doc/:TITLE).first.inner_text.strip
 
-  articles = (doc/:td).select{|x| (x/:a).size > 0}
-  links = articles.map{|x| (x/'a').map{|a| a['href'].unshift(uri)} }
+  articles = (doc/:tr).select{|x| (x/:a).size > 0}
+  links = articles.map{|x| (x/'a').map{|a| a['href']}.unshift(uri) }
 
   data = articles.map{|a| (a/:td).map{|x| x.inner_text} }
 
   dir = File.basename(Dir.pwd)
 
   data.size.times do |i|
-    abstract_link, pdf_link = *links[i].map{|x| SERVER + x}
+    abstract_link, pdf_link = *links[i]
     dummy,authors,ttl,volume,number,year,pages,img = *data[i].map{|x| x.strip}
-    next unless authors =~ /三木/
+    $stderr.print authors
+    unless authors =~ /三木/
+      $stderr.puts " ---> skip"
+      next
+    end
     title = ttl.gsub(/:/,'：')
     next unless pages
     first_page, last_page = * pages.split(/-+/)
