@@ -53,7 +53,7 @@ ARGV.each do |uri|
     title = ttls[i].gsub(/:/,'：')
     #$stderr.puts links[i]
     abstract_link, pdf_link = *links[i]
-    authors,journal,volume,year,number,pages = *data[i]
+    authors,journal,volume,year,number,pages = *data[i].map{|x| x.strip}
     next unless pages
     #authors = NKF.nkf("-Ws", authors)
     first_page, last_page = * pages.split(/-+/)
