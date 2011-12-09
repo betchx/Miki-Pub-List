@@ -3,24 +3,34 @@
 require 'rubygems'
 require 'hpricot'
 require 'open-uri'
-#require 'nkf'
+require 'tempfile'
+require 'nkf'   # to convert UTF8
 
 def field(key, value)
   puts "  #{key} = {#{value}},\r"
 end
-doc = Hpricot(open(ARGV[0]))
 
-ttls = (doc/'td.blackbd').map{|x| x.inner_text}
-bodies = (doc/'td.black').map{|x| x.inner_text}
-links = (doc/'td.black').map{|x| (x/'a').map{|a| a['href']} }
 
-#authors = bodies.map{|x| x.split(/\n/,2)[0]}
-#info = bodies.map{|x| x.split(/\n/)[1].scan(/^([^,]+), +Vol\. *(\d+) *\((\d\d\d\d)\) *No\. *(\d+) *pp\. *(\d+-\d+)/)[0]}
-#journals = info.map{|x| x.split(/,/,2)[0]}
-#years = info.map{|x| x.scan(/\((\d\d\d\d)\)/)[0][0]}
-#vols = info.map{|x| x.scan(/Vol\. (\d+)/)[0][0]}
-#nums = info.map{|x| x.scan
 
+uri = ARGV[0]
+
+#file = Tempfile.new("journal-archive-work")
+file = open("resent.html","w+")
+open(uri){|u|
+  file.write NKF.nkf("-w",u.read)
+}
+file.rewind
+
+html = Hpricot(file)
+
+file.close
+
+doc =Hpricot( (html/"body").inner_html )
+
+ttls = (doc/'td.blackbd').select{|x| (x/:a).size > 0}.map{|x| x.inner_text}
+paper_list = (doc/'td.black').select{|x| x.inner_text =~ /pp\./}
+links = paper_list.map{|x| (x/'a').map{|a| a['href']} }
+bodies = paper_list.map{|x| x.inner_text}
 
 data = bodies.map{|x| x.gsub(/\n/,'|')}.join("\n").scan(/^([^|]+)\|([^,]+),.*Vol\.\D*(\d+).*\((\d+)\).*No\.\D*(\d+).*pp\.\D*(\d+-\d+)/)
 
