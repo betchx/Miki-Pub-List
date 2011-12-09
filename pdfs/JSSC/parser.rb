@@ -5,6 +5,9 @@ require 'hpricot'
 require 'open-uri'
 #require 'nkf'
 
+def field(key, value)
+  puts "  #{key} = {#{value}},\r"
+end
 doc = Hpricot(open(ARGV[0]))
 
 ttls = (doc/'td.blackbd').map{|x| x.inner_text}
@@ -47,21 +50,18 @@ ttls.size.times do |i|
   #pdf_file = NKF.nkf("-Ws",pdf_file)
   #title = {#{NKF.nkf("-Ws",title)}},
   #journal = {#{NKF.nkf("-Ws",journal)}},
-  puts <<-NNN
-@ARTICLE{#{tag},\r
-  author = {#{authors.split(/,/).join(' and ')}},\r
-  title = {#{title}},\r
-  journal = {#{journal}},\r
-  year = {#{year}},\r
-  volume = {#{volume}},\r
-  pages = {#{pages}},\r
-  number = {#{number}},\r
-  url = {#{abstract_link}},\r
-  memo = {PDF_LINK: #{pdf_link}},\r
-  file = {#{pdf_file}:#{dir}\\\\#{pdf_file}:PDF}\r
-}\r
-\r
-  NNN
+  puts "@ARTICLE{#{tag},\r"
+  field "author", authors.split(/,/).join(' and ')
+  field "title", title
+  field "journal", journal
+  field "year", year
+  field "volume", volume
+  field "pages", pages
+  field "number", number if number
+  field "url", abstract_link
+  field "memo", "PDF_LINK: #{pdf_link}"
+  field "file", "#{pdf_file}:#{dir}\\\\#{pdf_file}:PDF"
+  puts "}\r\n\r"
 end
 
 
