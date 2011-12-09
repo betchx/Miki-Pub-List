@@ -18,7 +18,14 @@ else
   $down = false
 end
 
-uri = ARGV[0]
+# ヘッダは最初に１回だけとする．
+puts <<KKK
+% This file was created with JabRef 2.7.2.\r
+% Encoding: UTF8\r
+\r
+KKK
+
+ARGV.each do |uri|
 
 #file = Tempfile.new("journal-archive-work")
 file = open("resent.html","w+")
@@ -39,11 +46,6 @@ links = paper_list.map{|x| (x/'a').map{|a| a['href']} }
 bodies = paper_list.map{|x| x.inner_text}
 
 data = bodies.map{|x| x.gsub(/\n/,'|')}.join("\n").scan(/^([^|]+)\|([^,]+),.*Vol\.\D*(\d+).*\((\d+)\).*No\.\D*(\d+).*pp\.\D*(\d+-\d+)/)
-
-puts <<KKK
-% This file was created with JabRef 2.7.2.\r
-% Encoding: UTF8\r
-KKK
 
 dir = File.basename(Dir.pwd)
 
@@ -90,6 +92,7 @@ ttls.size.times do |i|
   puts "}\r\n\r"
 end
 
+end
 
 
 
