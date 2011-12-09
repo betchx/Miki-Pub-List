@@ -54,6 +54,7 @@ ARGV.each do |uri|
   data.size.times do |i|
     abstract_link, pdf_link = *links[i].map{|x| SERVER + x}
     dummy,authors,ttl,volume,number,year,pages,img = *data[i].map{|x| x.strip}
+    next unless authors =~ /三木/
     title = ttl.gsub(/:/,'：')
     next unless pages
     first_page, last_page = * pages.split(/-+/)
@@ -64,7 +65,7 @@ ARGV.each do |uri|
     tag = [year,volume,first_page].join('_')
     pdf_file = "#{tag}_#{title}.pdf"
     unless File.file?(pdf_file)
-      if $down && authors =~ /三木/
+      if $down
         $stderr.puts "Fetching #{pdf_file}"
         $stderr.puts "from: #{pdf_link}"
         open(pdf_link,"rb") do |efile|
