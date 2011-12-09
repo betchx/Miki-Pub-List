@@ -11,6 +11,12 @@ def field(key, value)
 end
 
 
+if ARGV[0] == "-d"
+  $down = true
+  ARGV.shift
+else
+  $down = false
+end
 
 uri = ARGV[0]
 
@@ -50,10 +56,14 @@ ttls.size.times do |i|
   tag = [year,volume,first_page].join('_')
   pdf_file = "#{tag}_#{title}.pdf"
   unless File.file?(pdf_file)
-    open(pdf_link,"rb") do |efile|
-      open(pdf_file,"wb") do |out|
-        out.write(efile.read)
-        out.close
+    if $down
+      $stderr.puts "Fetching #{pdf_file}"
+      $stderr.puts "from: #{pdf_link}"
+      open(pdf_link,"rb") do |efile|
+        open(pdf_file,"wb") do |out|
+          out.write(efile.read)
+          out.close
+        end
       end
     end
   end
