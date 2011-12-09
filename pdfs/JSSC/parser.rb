@@ -49,10 +49,16 @@ dir = File.basename(Dir.pwd)
 
 ttls.size.times do |i|
   title = ttls[i].gsub(/:/,'：')
+  #$stderr.puts links[i]
   abstract_link, pdf_link = *links[i]
   authors,journal,volume,year,number,pages = *data[i]
+  next unless pages
   #authors = NKF.nkf("-Ws", authors)
   first_page, last_page = * pages.split(/-+/)
+  if year == volume
+    volume = number
+    number = nil   # for JSCE
+  end
   tag = [year,volume,first_page].join('_')
   pdf_file = "#{tag}_#{title}.pdf"
   unless File.file?(pdf_file)
