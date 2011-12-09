@@ -5,3 +5,4 @@ pdfs/*.pdf
 ~*
 *.html
 pdfs/**/*.pdf
+*~
