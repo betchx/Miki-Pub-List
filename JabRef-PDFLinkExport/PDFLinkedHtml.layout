@@ -1,6 +1,6 @@
 <tr id="2002_710_9" class="entry">
 	<td>\format[HTMLChars,AuthorFirstLastCommas,Replace(" and,\,")]{\author}</td>
-	<td><a href="\format[FileLink(pdf),Replace("C:\\\\pdfs\\\\,./pdfs/")]{\file}" target="_blank">\format[HTMLChars,RemoveLatexCommands]{\title}</a></td>
+	<td><a href="\format[FileLink(pdf),Replace(".*pdfs\\\\,./pdfs/"),Replace("\\\\,/")]{\file}" target="_blank">\format[HTMLChars,RemoveLatexCommands]{\title}</a></td>
 	<td>\year</td>
 	<td>\format[HTMLChars,Replace("= Proceedings of JSCE,")]{\journal}</td>
 	<td>\volume\begin{number}(\number)\end{number},&nbsp;\begin{pages}pp. \format[FormatPagesForHTML]{\pages}\end{pages}</td>
