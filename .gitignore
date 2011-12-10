@@ -7,3 +7,8 @@ pdfs/*.pdf
 pdfs/**/*.pdf
 *~
 !index.html
+*.swp
+new/
+*.xls
+*.xlsx
+oldBib/
