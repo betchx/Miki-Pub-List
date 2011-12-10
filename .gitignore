@@ -6,3 +6,4 @@ pdfs/*.pdf
 *.html
 pdfs/**/*.pdf
 *~
+!index.html
